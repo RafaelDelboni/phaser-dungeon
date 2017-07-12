@@ -32,6 +32,15 @@ export default class extends Phaser.Sprite {
     game, x, y
   }) {
     super(game, x, y, 'atlas', 'knight-move-down-1')
+    game.physics.enable(this, Phaser.Physics.ARCADE)
+
+    this.body.fixedRotation = true
+    this.body.drag.set(0.2)
+    this.body.maxVelocity.setTo(120, 120)
+    this.body.collideWorldBounds = true
+
+    this.anchor.setTo(0.5)
+
     addAllAnimations.call(this)
   }
 
