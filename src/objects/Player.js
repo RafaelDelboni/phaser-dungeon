@@ -1,4 +1,5 @@
 import AtlasAnimation from '../helpers/AtlasAnimation'
+import InputControls from '../helpers/InputControls'
 import Character from './Character'
 
 const actions = {
@@ -37,20 +38,21 @@ export default class extends Character {
       x,
       y,
       name,
-      speed: 200,
-      controls: game.input.keyboard.createCursorKeys(),
       firstSprite: `${name}-${actions.move}-down-1`
     })
+    this.controls = new InputControls(game)
+    this.atlasAnimations = new AtlasAnimation(name, this.animations)
 
     this.actions = actions
-    this.atlasAnimations = new AtlasAnimation(name, this.animations)
-    this.direction = this.directions.down
+    this.speed = 140
 
     addAllAnimations.call(this)
   }
 
   update () {
     super.update()
+
+    this.controls.setMovement(this.body.velocity, this.speed)
     setAnimation.call(this)
   }
 }
