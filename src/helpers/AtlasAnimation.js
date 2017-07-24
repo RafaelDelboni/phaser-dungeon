@@ -14,12 +14,15 @@ export default class AtlasAnimation {
   add (
     {
       spriteName,
+      action,
+      direction,
       numberStart = 1,
       numberEnd = 5,
       speed = 6,
       loop = true
     }
   ) {
+    spriteName = spriteName || this.getName(action, direction)
     this.animations.add(
       spriteName,
       // name-type-direction-number, ex: knight-move-left-2
@@ -39,9 +42,10 @@ export default class AtlasAnimation {
     )
   }
 
-  stop (action, direction, reset = true) {
-    this.animations.stop(
-      this.getName(action, direction), reset
-    )
+  stop ({action, direction, reset = true}) {
+    const animationName = (action && direction)
+      ? this.getName(action, direction)
+      : null
+    this.animations.stop(animationName, reset)
   }
 }

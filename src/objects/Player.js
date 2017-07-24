@@ -1,32 +1,24 @@
-import AtlasAnimation from '../helpers/AtlasAnimation'
 import InputControls from '../helpers/InputControls'
 import Character from './Character'
 
-const actions = {
-  move: 'move',
-  atk: 'atk',
-  use: 'use'
-}
-
-const addAllAnimations = function () {
+const addMoveAnimations = function () {
   Object.keys(this.directions).map(
-    (direction) => Object.keys(this.actions).map(
-      (action) => this.atlasAnimations.add(
-        {spriteName: this.atlasAnimations.getName(
-          action,
-          direction
-        )}
-      )
-    )
+    (direction) => this.atlasAnimations.add({
+      action: this.actions.move,
+      direction,
+      speed: 8
+    })
   )
 }
 
-const setAnimation = function () {
-  if (!this.body.velocity.isZero()) {
-    this.atlasAnimations.play(this.actions.move, this.direction)
-  } else {
-    this.atlasAnimations.stop(this.actions.move, this.direction, true)
-  }
+const addAtkAnimations = function () {
+  Object.keys(this.directions).map(
+    (direction) => this.atlasAnimations.add({
+      action: this.actions.atk,
+      direction,
+      speed: 13
+    })
+  )
 }
 
 export default class extends Character {
@@ -38,21 +30,21 @@ export default class extends Character {
       x,
       y,
       name,
-      firstSprite: `${name}-${actions.move}-down-1`
+      firstSprite: `${name}-move-down-1`
     })
-    this.controls = new InputControls(game)
-    this.atlasAnimations = new AtlasAnimation(name, this.animations)
-
-    this.actions = actions
+    this.controls = new InputControls(this)
     this.speed = 140
 
-    addAllAnimations.call(this)
+    addMoveAnimations.call(this)
+    addAtkAnimations.call(this)
+  }
+
+  getAttack () {
+    return {type: 'normal', time: 24, speed: 13}
   }
 
   update () {
     super.update()
-
-    this.controls.setMovement(this.body.velocity, this.speed)
-    setAnimation.call(this)
+    this.controls.update()
   }
 }
