@@ -40,7 +40,7 @@ export default class extends Character {
   }
 
   getAttack () {
-    return {type: 'normal', time: 24, speed: 13}
+    return {type: 'normal', time: 24, speed: 13, cooldown: 30}
   }
 
   update () {

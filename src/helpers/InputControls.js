@@ -20,9 +20,12 @@ const setMovementByDirection = function (character, speed) {
 }
 
 const setAttack = function () {
-  const attack = this.character.getAttack()
-  this.character.isAttacking = attack.time
-  setMovementByDirection(this.character, attack.speed)
+  if (!this.character.isAttackingCooldown) {
+    const attack = this.character.getAttack()
+    this.character.isAttacking = attack.time
+    this.character.isAttackingCooldown = attack.cooldown
+    setMovementByDirection(this.character, attack.speed)
+  }
 }
 
 const setMovement = function () {

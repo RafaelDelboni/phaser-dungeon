@@ -30,7 +30,6 @@ const setDirection = function () {
 const setAction = function () {
   if (this.isAttacking) {
     this.action = this.actions.atk
-    this.isAttacking--
   } else {
     this.action = this.actions.move
   }
@@ -41,6 +40,14 @@ const setAnimation = function () {
     this.atlasAnimations.stop({reset: true})
   } else {
     this.atlasAnimations.play(this.action, this.direction)
+  }
+}
+
+const calcTimers = function () {
+  if (this.isAttacking) {
+    this.isAttacking--
+  } else if (this.isAttackingCooldown) {
+    this.isAttackingCooldown--
   }
 }
 
@@ -72,11 +79,13 @@ export default class extends Phaser.Sprite {
     this.name = name
 
     this.isAttacking = 0
+    this.isAttackingCooldown = 0
   }
 
   update () {
     setDirection.call(this)
     setAction.call(this)
     setAnimation.call(this)
+    calcTimers.call(this)
   }
 }
