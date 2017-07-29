@@ -15,15 +15,18 @@ const directions = {
 }
 
 const setDirection = function () {
-  if (this.body.velocity.y <= -1) {
-    this.direction = this.directions.up
-  } else if (this.body.velocity.y >= 1) {
-    this.direction = this.directions.down
-  }
-  if (this.body.velocity.x <= -1) {
-    this.direction = this.directions.left
-  } else if (this.body.velocity.x >= 1) {
-    this.direction = this.directions.right
+  if (Math.abs(this.body.velocity.y) > Math.abs(this.body.velocity.x)) {
+    if (this.body.velocity.y <= -1) {
+      this.direction = this.directions.up
+    } else if (this.body.velocity.y >= 1) {
+      this.direction = this.directions.down
+    }
+  } else {
+    if (this.body.velocity.x <= -1) {
+      this.direction = this.directions.left
+    } else if (this.body.velocity.x >= 1) {
+      this.direction = this.directions.right
+    }
   }
 }
 
