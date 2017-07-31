@@ -1,11 +1,6 @@
 import Phaser from 'phaser'
 import AtlasAnimation from '../helpers/AtlasAnimation'
-
-const actions = {
-  move: 'move',
-  atk: 'atk',
-  use: 'use'
-}
+import actionTypes from '../actions/types'
 
 const directions = {
   left: 'left',
@@ -16,30 +11,30 @@ const directions = {
 
 const setDirection = function () {
   if (Math.abs(this.body.velocity.y) > Math.abs(this.body.velocity.x)) {
-    if (this.body.velocity.y <= -1) {
+    if (this.body.velocity.y <= -0.1) {
       this.direction = this.directions.up
-    } else if (this.body.velocity.y >= 1) {
+    } else if (this.body.velocity.y >= 0.1) {
       this.direction = this.directions.down
     }
   } else {
-    if (this.body.velocity.x <= -1) {
+    if (this.body.velocity.x <= -0.1) {
       this.direction = this.directions.left
-    } else if (this.body.velocity.x >= 1) {
+    } else if (this.body.velocity.x >= 0.1) {
       this.direction = this.directions.right
     }
   }
 }
 
 const setAction = function () {
-  if (this.isAttacking) {
-    this.action = this.actions.atk
-  } else {
-    this.action = this.actions.move
-  }
+  this.actions.map(
+    (state) => {
+      this.action = state.isHappening ? state.action : actionTypes.move
+    }
+  )
 }
 
 const setAnimation = function () {
-  if (this.body.velocity.isZero() && !this.isAttacking) {
+  if (this.body.velocity.isZero() && !this.action) {
     this.atlasAnimations.stop({reset: true})
   } else {
     this.atlasAnimations.play(this.action, this.direction)
@@ -47,11 +42,15 @@ const setAnimation = function () {
 }
 
 const calcTimers = function () {
-  if (this.isAttacking) {
-    this.isAttacking--
-  } else if (this.isAttackingCooldown) {
-    this.isAttackingCooldown--
-  }
+  this.actions.map(
+    (state) => {
+      if (state.isHappening) {
+        state.isHappening--
+      } else if (state.isCooldown) {
+        state.isCooldown--
+      }
+    }
+  )
 }
 
 export default class extends Phaser.Sprite {
@@ -72,22 +71,34 @@ export default class extends Phaser.Sprite {
     game.physics.enable(this, Phaser.Physics.ARCADE)
     this.atlasAnimations = new AtlasAnimation(name, this.animations)
     this.directions = directions
+
+    // default
+    this.action = actionTypes.move
     this.direction = this.directions.down
-    this.actions = actions
-    this.action = this.actions.move
 
     this.body.collideWorldBounds = true
     this.body.fixedRotation = true
     this.anchor.setTo(0.5)
     this.name = name
+  }
 
-    this.isAttacking = 0
-    this.isAttackingCooldown = 0
+  setActions (actions) {
+    this.actions = actions
+  }
+
+  setHappeningAction (action) {
+    this.actions.map(
+      (state) => {
+        if (state.action === action) {
+          state.set()
+        }
+      }
+    )
   }
 
   update () {
-    setDirection.call(this)
     setAction.call(this)
+    setDirection.call(this)
     setAnimation.call(this)
     calcTimers.call(this)
   }

@@ -1,5 +1,6 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
+import actionTypes from '../actions/types'
 
 const setAimSystem = function (range = 20, height = 20, width = 10) {
   this.aim.removeAll()
@@ -13,15 +14,6 @@ const setAimSystem = function (range = 20, height = 20, width = 10) {
   sight.width = width
 
   this.aim.add(sight)
-}
-
-const setAttack = function () {
-  if (!this.character.isAttackingCooldown) {
-    const attack = this.character.getAttack()
-    this.character.isAttacking = attack.time
-    this.character.isAttackingCooldown = attack.cooldown
-    this.game.physics.arcade.moveToPointer(this.character, attack.speed)
-  }
 }
 
 const setMovement = function () {
@@ -90,8 +82,9 @@ export default class InputControls {
   update () {
     this.aim.rotation = this.game.physics.arcade.angleToPointer(this.character)
 
-    if (this.character.isAttacking) return
-    this.keys.attack.onDown.add(setAttack, this)
+    if (this.character.action !== actionTypes.move) return
+
+    this.keys.attack.onDown.add(this.character.setHappeningAction.bind(this.character, actionTypes.atk))
     setMovement.call(this)
   }
 }
