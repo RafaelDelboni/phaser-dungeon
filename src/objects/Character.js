@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import AtlasAnimation from '../helpers/AtlasAnimation'
-import actionTypes from '../actions/types'
+import actionTypes from '../actions/Types'
 
 const directions = {
   left: 'left',
@@ -26,15 +26,20 @@ const setDirection = function () {
 }
 
 const setAction = function () {
-  this.actions.map(
-    (state) => {
-      this.action = state.isHappening ? state.action : actionTypes.move
+  const current = this.actions.find(state => state.isHappening)
+  if (current) {
+    this.action = current.action
+  } else {
+    if (!this.body.velocity.isZero()) {
+      this.action = actionTypes.move
+    } else {
+      this.action = actionTypes.idle
     }
-  )
+  }
 }
 
 const setAnimation = function () {
-  if (this.body.velocity.isZero() && this.action === actionTypes.move) {
+  if (this.body.velocity.isZero() && this.action === actionTypes.idle) {
     this.atlasAnimations.stop({reset: true})
   } else {
     this.atlasAnimations.play(this.action, this.direction)
@@ -73,7 +78,7 @@ export default class extends Phaser.Sprite {
     this.directions = directions
 
     // default
-    this.action = actionTypes.move
+    this.action = actionTypes.idle
     this.direction = this.directions.down
 
     this.body.collideWorldBounds = true
@@ -86,14 +91,13 @@ export default class extends Phaser.Sprite {
     this.actions = actions
   }
 
-  setHappeningAction (action) {
-    this.actions.map(
-      (state) => {
-        if (state.action === action) {
-          state.set()
-        }
-      }
-    )
+  setHappeningAction (action, args) {
+    const activeActions = this.actions.filter(state => state.isHappening)
+    if (!activeActions.length) {
+      this.actions
+        .filter(state => !state.isHappening && state.action === action)
+        .map(state => state.set(args))
+    }
   }
 
   update () {

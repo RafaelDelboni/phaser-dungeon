@@ -1,7 +1,8 @@
 import InputControls from '../helpers/InputControls'
 import Character from './Character'
+import actionTypes from '../actions/Types'
 import Attacks from '../actions/Attacks'
-import actionTypes from '../actions/types'
+import Dash from '../actions/Dash'
 
 const addMoveAnimations = function () {
   Object.keys(this.directions).map(
@@ -38,7 +39,11 @@ export default class extends Character {
     this.setActions([
       new Attacks({
         character: this,
-        attacks: [{id: 0, type: 'normal', time: 24, speed: 13, cooldown: 26}]
+        attacks: [{id: 0, type: 'normal', time: 24, speed: 13, cooldown: 15}]
+      }),
+      new Dash({
+        character: this,
+        dash: {time: 15, speed: 300, cooldown: 15}
       })
     ])
 

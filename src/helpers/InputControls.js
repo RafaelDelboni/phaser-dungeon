@@ -1,6 +1,6 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
-import actionTypes from '../actions/types'
+import actionTypes from '../actions/Types'
 
 const setAimSystem = function (range = 20, height = 20, width = 10) {
   this.aim.removeAll()
@@ -34,11 +34,13 @@ const setMovement = function () {
   }
 
   let currentSpeed = this.character.speed
+  this.isHappening = 1
+  this.isCooldown = 1
 
   let targetSpeed =
-      (this.character.body.velocity.x !== 0 && this.character.body.velocity.y !== 0)
-        ? currentSpeed * this.pythInverse
-        : currentSpeed
+    (this.character.body.velocity.x !== 0 && this.character.body.velocity.y !== 0)
+      ? currentSpeed * this.pythInverse
+      : currentSpeed
 
   this.character.body.velocity.x *= targetSpeed
   this.character.body.velocity.y *= targetSpeed
@@ -55,7 +57,7 @@ export default class InputControls {
       Phaser.Keyboard.D,
       Phaser.Keyboard.W,
       Phaser.Keyboard.S,
-      Phaser.Keyboard.O
+      Phaser.Keyboard.SPACEBAR
     ])
 
     this.game.input.mouse.capture = true
@@ -65,14 +67,15 @@ export default class InputControls {
       right: this.game.input.keyboard.addKey(Phaser.Keyboard.D),
       up: this.game.input.keyboard.addKey(Phaser.Keyboard.W),
       down: this.game.input.keyboard.addKey(Phaser.Keyboard.S),
+      dash: this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR),
       attack: this.game.input.activePointer.leftButton
     }
-
-    this.pythInverse = 1 / Math.SQRT2
 
     this.aim = this.game.add.group()
     this.character.addChild(this.aim)
     setAimSystem.call(this)
+
+    this.pythInverse = 1 / Math.SQRT2
   }
 
   setAim (range, height, width) {
@@ -82,9 +85,11 @@ export default class InputControls {
   update () {
     this.aim.rotation = this.game.physics.arcade.angleToPointer(this.character)
 
-    if (this.character.action !== actionTypes.move) return
-
+    if (this.character.action === actionTypes.idle ||
+      this.character.action === actionTypes.move) {
+      setMovement.call(this)
+    }
     this.keys.attack.onDown.add(this.character.setHappeningAction.bind(this.character, actionTypes.atk))
-    setMovement.call(this)
+    this.keys.dash.onDown.add(this.character.setHappeningAction.bind(this.character, actionTypes.dash))
   }
 }

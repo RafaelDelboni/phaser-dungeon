@@ -31,6 +31,7 @@
     "webpack-spritesmith": "^0.3.3"
   },
   "dependencies": {
+    "enumify": "^1.0.4",
     "phaser-ce": "^2.8.3",
     "webfontloader": "^1.6.28"
   }
