@@ -34,8 +34,6 @@ const setMovement = function () {
   }
 
   let currentSpeed = this.character.speed
-  this.isHappening = 1
-  this.isCooldown = 1
 
   let targetSpeed =
     (this.character.body.velocity.x !== 0 && this.character.body.velocity.y !== 0)
