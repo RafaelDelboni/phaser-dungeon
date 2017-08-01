@@ -34,7 +34,7 @@ const setAction = function () {
 }
 
 const setAnimation = function () {
-  if (this.body.velocity.isZero() && !this.action) {
+  if (this.body.velocity.isZero() && this.action === actionTypes.move) {
     this.atlasAnimations.stop({reset: true})
   } else {
     this.atlasAnimations.play(this.action, this.direction)
