@@ -1,6 +1,7 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import Player from '../objects/Player'
+import Npc from '../objects/Npc'
 
 export default class extends Phaser.State {
   init () {}
@@ -9,8 +10,9 @@ export default class extends Phaser.State {
   create () {
     this.game.add.sprite(0, 0, 'atlas', 'debug-grid-1920x1920')
     this.game.world.setBounds(0, 0, 1920, 1920)
-
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
+
+    this.currentStage = this.game.add.group()
 
     this.player = new Player({
       game: this.game,
@@ -18,7 +20,14 @@ export default class extends Phaser.State {
       y: this.world.centerY,
       name: 'knight'
     })
-    this.game.add.existing(this.player)
+    this.currentStage.add(this.player)
+
+    this.currentStage.add(new Npc({
+      game: this.game,
+      x: this.world.centerX + 50,
+      y: this.world.centerY + 50,
+      name: 'green-knight'
+    }))
 
     this.game.camera.setBoundsToWorld()
     this.game.camera.position = {
@@ -28,7 +37,9 @@ export default class extends Phaser.State {
     this.game.camera.follow(this.player, Phaser.Camera.FOLLOW_LOCKON, 0.1, 0.5)
   }
 
-  update () {}
+  update () {
+    this.currentStage.sort('y', Phaser.Group.SORT_ASCENDING)
+  }
 
   render () {
     if (__DEV__) {

@@ -9,6 +9,19 @@ const directions = {
   down: 'down'
 }
 
+const setAction = function () {
+  const current = this.actions.find(state => state.isHappening)
+  if (current) {
+    this.action = current.action
+  } else {
+    if (!this.body.velocity.isZero()) {
+      this.action = actionTypes.move
+    } else {
+      this.action = actionTypes.idle
+    }
+  }
+}
+
 const setDirection = function () {
   if (Math.abs(this.body.velocity.y) > Math.abs(this.body.velocity.x)) {
     if (this.body.velocity.y <= -0.1) {
@@ -21,19 +34,6 @@ const setDirection = function () {
       this.direction = this.directions.left
     } else if (this.body.velocity.x >= 0.1) {
       this.direction = this.directions.right
-    }
-  }
-}
-
-const setAction = function () {
-  const current = this.actions.find(state => state.isHappening)
-  if (current) {
-    this.action = current.action
-  } else {
-    if (!this.body.velocity.isZero()) {
-      this.action = actionTypes.move
-    } else {
-      this.action = actionTypes.idle
     }
   }
 }

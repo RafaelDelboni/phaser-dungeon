@@ -1,11 +1,16 @@
 {
     "compilerOptions": {
-        "target": "ES6"
+        "module": "commonjs",
+        "target": "es6",
+        "sourceMap": true,
+        "baseUrl": "./",
+        "paths": {
+            "phaser": ["node_modules/phaser-ce/build/custom/phaser-split"],
+            "pixi": ["node_modules/phaser-ce/build/custom/pixi"],
+            "p2": ["node_modules/phaser-ce/build/custom/p2"]
+        }
     },
-    "include": [
-        "src/**/*"
-    ],
     "exclude": [
-        "node_modules"
+        "node_modules/**/*"
     ]
-}
+  }
