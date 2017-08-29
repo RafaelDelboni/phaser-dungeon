@@ -38,13 +38,14 @@ export default class extends Phaser.State {
   }
 
   update () {
+    this.game.physics.arcade.collide(this.currentStage)
     this.currentStage.sort('y', Phaser.Group.SORT_ASCENDING)
   }
 
   render () {
     if (__DEV__) {
-      this.game.debug.bodyInfo(this.player, 32, 32)
-      this.game.debug.body(this.player)
+      this.game.debug.bodyInfo(this.player, -64, 32)
+      this.currentStage.hash.map(object => this.game.debug.body(object))
     }
   }
 }

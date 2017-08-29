@@ -83,6 +83,13 @@ export default class extends Phaser.Sprite {
 
     this.body.collideWorldBounds = true
     this.body.fixedRotation = true
+    this.body.bounce.x = -1
+    this.body.bounce.y = -1
+    this.body.height = this.body.halfHeight
+    this.body.width = this.body.halfWidth
+    this.body.offset.x = this.body.width / 2
+    this.body.offset.y = this.body.height / 1.25
+
     this.anchor.setTo(0.5)
     this.name = name
   }
