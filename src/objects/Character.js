@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import AtlasAnimation from '../helpers/AtlasAnimation'
 import actionTypes from '../actions/Types'
+import Aim from '../actions/Aim'
 
 const directions = {
   left: 'left',
@@ -83,8 +84,7 @@ export default class extends Phaser.Sprite {
 
     this.body.collideWorldBounds = true
     this.body.fixedRotation = true
-    this.body.bounce.x = -1
-    this.body.bounce.y = -1
+    this.body.bounce.setTo(-1, -1)
     this.body.height = this.body.halfHeight
     this.body.width = this.body.halfWidth
     this.body.offset.x = this.body.width / 2
@@ -92,6 +92,8 @@ export default class extends Phaser.Sprite {
 
     this.anchor.setTo(0.5)
     this.name = name
+
+    this.aim = new Aim({game, character: this})
   }
 
   setActions (actions) {
@@ -108,6 +110,7 @@ export default class extends Phaser.Sprite {
   }
 
   update () {
+    this.aim.update()
     setAction.call(this)
     setDirection.call(this)
     setAnimation.call(this)

@@ -4,19 +4,19 @@ class Types extends Enum {}
 export default Types.initEnum(
   {
     idle: {
-      get animation () { return 'move' }
+      animation: 'move'
     },
     move: {
-      get animation () { return 'move' }
+      animation: 'move'
     },
     atk: {
-      get animation () { return 'atk' }
+      animation: 'atk'
     },
     use: {
-      get animation () { return 'use' }
+      animation: 'use'
     },
     dash: {
-      get animation () { return 'move' }
+      animation: 'move'
     }
   }
 )

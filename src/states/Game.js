@@ -12,7 +12,8 @@ export default class extends Phaser.State {
     this.game.world.setBounds(0, 0, 1920, 1920)
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
 
-    this.currentStage = this.game.add.group()
+    // TODO: Work with subgroups
+    this.game.currentStage = this.game.add.group(this.world, 'stage')
 
     this.player = new Player({
       game: this.game,
@@ -20,9 +21,9 @@ export default class extends Phaser.State {
       y: this.world.centerY,
       name: 'knight'
     })
-    this.currentStage.add(this.player)
+    this.game.currentStage.add(this.player)
 
-    this.currentStage.add(new Npc({
+    this.game.currentStage.add(new Npc({
       game: this.game,
       x: this.world.centerX + 50,
       y: this.world.centerY + 50,
@@ -38,14 +39,15 @@ export default class extends Phaser.State {
   }
 
   update () {
-    this.game.physics.arcade.collide(this.currentStage)
-    this.currentStage.sort('y', Phaser.Group.SORT_ASCENDING)
+    // TODO: Subgroups iterate thought the nested groups to colide and sort
+    this.game.physics.arcade.collide(this.game.currentStage)
+    this.game.currentStage.sort('y', Phaser.Group.SORT_ASCENDING)
   }
 
   render () {
     if (__DEV__) {
       this.game.debug.bodyInfo(this.player, -64, 32)
-      this.currentStage.hash.map(object => this.game.debug.body(object))
+      this.game.currentStage.hash.map(object => this.game.debug.body(object))
     }
   }
 }

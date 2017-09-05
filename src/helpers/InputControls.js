@@ -1,20 +1,5 @@
-/* globals __DEV__ */
 import Phaser from 'phaser'
 import actionTypes from '../actions/Types'
-
-const setAimSystem = function (range = 20, height = 20, width = 10) {
-  this.aim.removeAll()
-
-  const sight = __DEV__
-    ? this.game.add.sprite(range, 0, 'atlas', 'mushroom2')
-    : this.game.add.sprite(range, 0)
-
-  sight.anchor.setTo(0.5)
-  sight.height = height
-  sight.width = width
-
-  this.aim.add(sight)
-}
 
 const setMovement = function () {
   if (this.keys.left.isDown) {
@@ -69,19 +54,11 @@ export default class InputControls {
       attack: this.game.input.activePointer.leftButton
     }
 
-    this.aim = this.game.add.group()
-    this.character.addChild(this.aim)
-    setAimSystem.call(this)
-
     this.pythInverse = 1 / Math.SQRT2
   }
 
-  setAim (range, height, width) {
-    setAimSystem.call(this, range, height, width)
-  }
-
   update () {
-    this.aim.rotation = this.game.physics.arcade.angleToPointer(this.character)
+    this.character.aim.rotation = this.game.physics.arcade.angleToPointer(this.character)
 
     if (this.character.action === actionTypes.idle ||
       this.character.action === actionTypes.move) {
