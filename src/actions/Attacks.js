@@ -1,4 +1,4 @@
-import types from '../actions/Types'
+import Actions from '../actions'
 
 export default class Attacks {
   constructor ({
@@ -6,7 +6,7 @@ export default class Attacks {
     attacks
   }) {
     this.character = character
-    this.action = types.atk
+    this.action = Actions.atk
     this.attacks = attacks
     this.current = 0
     this.isHappening = 0

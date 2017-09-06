@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import AtlasAnimation from '../helpers/AtlasAnimation'
-import actionTypes from '../actions/Types'
+import Actions from '../actions'
 import Aim from '../actions/Aim'
 
 const directions = {
@@ -16,9 +16,9 @@ const setAction = function () {
     this.action = current.action
   } else {
     if (!this.body.velocity.isZero()) {
-      this.action = actionTypes.move
+      this.action = Actions.move
     } else {
-      this.action = actionTypes.idle
+      this.action = Actions.idle
     }
   }
 }
@@ -40,7 +40,7 @@ const setDirection = function () {
 }
 
 const setAnimation = function () {
-  if (this.body.velocity.isZero() && this.action === actionTypes.idle) {
+  if (this.body.velocity.isZero() && this.action === Actions.idle) {
     this.atlasAnimations.stop({reset: true})
   } else {
     this.atlasAnimations.play(this.action, this.direction)
@@ -65,6 +65,7 @@ export default class extends Phaser.Sprite {
     x,
     y,
     name,
+    type,
     firstSprite
   }) {
     super(
@@ -79,7 +80,7 @@ export default class extends Phaser.Sprite {
     this.directions = directions
 
     // default
-    this.action = actionTypes.idle
+    this.action = Actions.idle
     this.direction = this.directions.down
 
     this.body.collideWorldBounds = true
@@ -92,6 +93,7 @@ export default class extends Phaser.Sprite {
 
     this.anchor.setTo(0.5)
     this.name = name
+    this.type = type
 
     this.aim = new Aim({game, character: this})
   }

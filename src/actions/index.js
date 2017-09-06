@@ -1,7 +1,7 @@
 import {Enum} from 'enumify'
 
-class Types extends Enum {}
-export default Types.initEnum(
+class Actions extends Enum {}
+export default Actions.initEnum(
   {
     idle: {
       animation: 'move'

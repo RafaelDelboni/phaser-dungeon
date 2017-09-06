@@ -1,4 +1,4 @@
-import types from '../actions/Types'
+import Actions from '../actions'
 
 export default class Dash {
   constructor ({
@@ -6,7 +6,7 @@ export default class Dash {
     dash
   }) {
     this.character = character
-    this.action = types.dash
+    this.action = Actions.dash
     this.dash = dash
     this.isHappening = 0
     this.isCooldown = 0

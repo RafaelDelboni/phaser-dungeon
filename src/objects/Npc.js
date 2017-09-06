@@ -1,12 +1,13 @@
+import Objects from './'
 import Character from './Character'
-import actionTypes from '../actions/Types'
+import Actions from '../actions'
 import Attacks from '../actions/Attacks'
 import Dash from '../actions/Dash'
 
 const addMoveAnimations = function () {
   Object.keys(this.directions).map(
     (direction) => this.atlasAnimations.add({
-      action: actionTypes.move,
+      action: Actions.move,
       direction,
       speed: 8
     })
@@ -16,7 +17,7 @@ const addMoveAnimations = function () {
 const addAtkAnimations = function () {
   Object.keys(this.directions).map(
     (direction) => this.atlasAnimations.add({
-      action: actionTypes.atk,
+      action: Actions.atk,
       direction,
       speed: 13
     })
@@ -32,6 +33,7 @@ export default class extends Character {
       x,
       y,
       name,
+      type: Objects.npc,
       firstSprite: `${name}-move-down-1`
     })
 

@@ -12,7 +12,6 @@ export default class extends Phaser.State {
     this.game.world.setBounds(0, 0, 1920, 1920)
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
 
-    // TODO: Work with subgroups
     this.game.currentStage = this.game.add.group(this.world, 'stage')
 
     this.player = new Player({
@@ -39,7 +38,6 @@ export default class extends Phaser.State {
   }
 
   update () {
-    // TODO: Subgroups iterate thought the nested groups to colide and sort
     this.game.physics.arcade.collide(this.game.currentStage)
     this.game.currentStage.sort('y', Phaser.Group.SORT_ASCENDING)
   }

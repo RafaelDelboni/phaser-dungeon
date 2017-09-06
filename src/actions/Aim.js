@@ -20,8 +20,10 @@ const getSight = function (
   return sight
 }
 
-const overlapHandler = function (_player, _enemy) {
-  console.log(_player, _enemy)
+const overlapHandler = function (aim, sight) {
+  if (sight !== this.character) {
+    console.log(sight)
+  }
 }
 
 export default class Aim extends Phaser.Group {

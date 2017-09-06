@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import actionTypes from '../actions/Types'
+import Actions from '../actions'
 
 const setMovement = function () {
   if (this.keys.left.isDown) {
@@ -60,11 +60,11 @@ export default class InputControls {
   update () {
     this.character.aim.rotation = this.game.physics.arcade.angleToPointer(this.character)
 
-    if (this.character.action === actionTypes.idle ||
-      this.character.action === actionTypes.move) {
+    if (this.character.action === Actions.idle ||
+      this.character.action === Actions.move) {
       setMovement.call(this)
     }
-    this.keys.attack.onDown.add(this.character.setHappeningAction.bind(this.character, actionTypes.atk))
-    this.keys.dash.onDown.add(this.character.setHappeningAction.bind(this.character, actionTypes.dash))
+    this.keys.attack.onDown.add(this.character.setHappeningAction.bind(this.character, Actions.atk))
+    this.keys.dash.onDown.add(this.character.setHappeningAction.bind(this.character, Actions.dash))
   }
 }
