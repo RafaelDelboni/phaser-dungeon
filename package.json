@@ -5,7 +5,7 @@
   "author": "Rafael Delboni <rafael@delboni.cc>",
   "scripts": {
     "precommit": "lint-staged",
-    "prepush": "test",
+    "prepush": "run-s test",
     "dev": "webpack",
     "build": "webpack --config webpack.production.config.js",
     "test": "eslint ./src/**/**.js"
