@@ -1,6 +1,14 @@
 # Phaser Dungeon
 #### A experimental project to test Phaser on a simple Dungeon Crawler.
+
 #### [Online Demo](http://phaser-dungeon.herokuapp.com/)
+### Controls
+
+| Action | Command |
+| ------ | ------ |
+| Walk | W A S D |
+| Dash | Spacebar |
+| Attack | Mouse click |
 
 ## Features
 - ESLINT with JavaScript Standard Style configuration
