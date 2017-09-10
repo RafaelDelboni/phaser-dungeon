@@ -3,12 +3,17 @@
   "version": "1.0.0",
   "description": "A experimental project to test Phaser on a simple Dungeon Crawler",
   "author": "Rafael Delboni <rafael@delboni.cc>",
+  "engines": {
+    "node": "8.x"
+  },
   "scripts": {
+    "postinstall": "run-s build",
     "precommit": "lint-staged",
     "prepush": "run-s test",
-    "dev": "webpack",
     "build": "webpack --config webpack.production.config.js",
-    "test": "eslint ./src/**/**.js"
+    "test": "eslint ./src/**/**.js",
+    "dev": "webpack",
+    "start": "http-server"
   },
   "lint-staged": {
     "*.js": [
@@ -43,6 +48,7 @@
   },
   "dependencies": {
     "enumify": "^1.0.4",
+    "http-server": "^0.10.0",
     "phaser-ce": "^2.8.5",
     "webfontloader": "^1.6.28"
   }
