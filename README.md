@@ -1,5 +1,6 @@
 # Phaser Dungeon
 #### A experimental project to test Phaser on a simple Dungeon Crawler.
+#### [Online Demo](http://phaser-dungeon.herokuapp.com/)
 
 ## Features
 - ESLINT with JavaScript Standard Style configuration
